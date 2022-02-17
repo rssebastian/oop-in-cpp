@@ -202,4 +202,4 @@ bool tieCheck()
     return true;
 }
 
-// TEST CASE OUTPUT in testCases.txt
+// TEST CASE OUTPUT in testCases.cpp
