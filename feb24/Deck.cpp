@@ -1,15 +1,13 @@
 #include "Deck.h"
 #include "Card.h"
+#include "Quicksort.h"
 #include <string>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <algorithm>
 
 using namespace std;
-
-bool sortBySuit(Card &card1, Card &card2);
 
 Deck::Deck()
 {
@@ -35,6 +33,8 @@ Card Deck::draw()
 {
     Card card = deck.at(0);
     deck.erase(deck.begin());
+    cout << "You drew a card! It was:\n";
+    printCard(card);
     return card;
 }
 
@@ -50,11 +50,12 @@ void Deck::cut(int n)
     }
 }
 
-// void Deck::sort()
-// {
-//     sort(deck.begin(), deck.end(), sortBySuit);
-//     sort()
-// }
+void Deck::sort()
+{
+    shuffle();
+    quickSort(deck);
+    cout << "Deck has been sorted!\n";
+}
 
 void Deck::generateDeck()
 {
@@ -137,8 +138,3 @@ void Deck::printDeck()
         printCard(deck[card]);
     }
 }
-
-bool sortBySuit(Card &card1, Card &card2)
-{
-    return (card1.suit < card2.suit);
-};
