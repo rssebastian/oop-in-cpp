@@ -58,8 +58,6 @@ public:
     int getNumerator() const { return this->numerator; }
     int getDenominator() const { return this->denominator; }
 
-    std::string printRational();
-
     // OPERATORS
     RationalNumber operator+(RationalNumber other);
     RationalNumber operator+(int other);
