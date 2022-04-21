@@ -64,9 +64,27 @@ public:
         tape_fs.open(tape_f, std::ios::in);
         if (tape_fs) {
             std::string currentLine;
-            while (getline(tape_fs, currentLine)) {
-                std::cout << currentLine << std::endl;
+            getline(tape_fs, currentLine);
+            std::size_t squareReader = currentLine.find(":");
+            initialState = stoi(currentLine.substr(0, squareReader));
+            std::string squaresToMark = currentLine.substr(++squareReader);
+            std::cout << squaresToMark << std::endl;
+
+            std::size_t nextComma = currentLine.find(",");
+            while (nextComma != std::string::npos) {
+                tape.push_back(stoi(currentLine.substr(squareReader, nextComma)));
+                squareReader = nextComma + 1;
+                squaresToMark = currentLine.substr(squareReader);
+                if (squaresToMark.find(",") != std::string::npos) {
+                    nextComma += squaresToMark.find(",") + 1;
+                }
+                else {
+                    nextComma = squaresToMark.find(",");
+                }
             }
+            tape.push_back(stoi(currentLine.substr(squareReader)));
+            
+            std::cout << "Initial State = " << initialState << std::endl;
         }
         else {
             std::cout << "Error opening tape";

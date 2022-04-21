@@ -18,7 +18,9 @@ int main()
     //std::cout << tm.get_tape();
     //std::cout << std::endl << std::endl << std::endl;
 
-    TuringMachine("tape.txt", "state_list.txt");
+    TuringMachine tm = TuringMachine("tape.txt", "state_list.txt");
+    std::cout << tm.get_tape() << std::endl;
+  
 
     return 0;
 }

@@ -43,6 +43,7 @@ void TuringMachine::remove_mark()
 }
 std::string TuringMachine::get_tape()
 {
+    std::cout << "getting tape!" << std::endl;
     std::string output;
     if (tape.size() == 0)
         return "Blank Tape\n";
