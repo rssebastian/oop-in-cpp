@@ -10,7 +10,7 @@ class TuringMachine
 {
 private:
     long current_square = 0;
-    long initialState = 0;
+    int machineState = 0;
     std::vector<int> tape;
     std::string tape_f;
     std::string state_f;
@@ -56,16 +56,14 @@ private:
 
 public:
     TuringMachine(std::string tape_file, std::string state_file);
-    void move_left();          // moves the read head 1 square left
-    void move_right();         // moves the read head 1 square right
-    bool read_square();        // returns true if there is a mark
-                               // on the current square, false otherwise
-    void make_mark();          // marks the current square, if it
-                               // is not already marked
-    void remove_mark();        // if there is a mark on the current
-                               // square, remove it
-    std::string get_tape();    // returns a string
-                               // representation of the tape
-    long get_current_square(); // returns the location of
-                               // the read head
+    void move_left();          
+    void move_right();         
+    bool read_square();        
+    void make_mark();          
+    void remove_mark();        
+    std::string get_tape();    
+    long get_current_square(); 
+    void update();
+    void run();
+                               
 };

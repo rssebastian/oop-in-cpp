@@ -11,24 +11,25 @@ TuringMachine::TuringMachine(std::string tape_file, std::string state_file) {
         std::string currentLine;
         getline(tape_fs, currentLine);
         std::size_t squareReader = currentLine.find(":");
-        initialState = stoi(currentLine.substr(0, squareReader));
+        machineState = stoi(currentLine.substr(0, squareReader));
         std::string squaresToMark = currentLine.substr(++squareReader);
-
-        std::size_t nextComma = currentLine.find(",");
-        while (nextComma != std::string::npos) {
-            tape.push_back(stoi(currentLine.substr(squareReader, nextComma)));
-            squareReader = nextComma + 1;
-            squaresToMark = currentLine.substr(squareReader);
-            if (squaresToMark.find(",") != std::string::npos) {
-                nextComma += squaresToMark.find(",") + 1;
+        std::cout << squaresToMark << std::endl;
+        if (!squaresToMark.empty()) {
+            std::size_t nextComma = currentLine.find(",");
+            while (nextComma != std::string::npos) {
+                tape.push_back(stoi(currentLine.substr(squareReader, nextComma)));
+                squareReader = nextComma + 1;
+                squaresToMark = currentLine.substr(squareReader);
+                if (squaresToMark.find(",") != std::string::npos) {
+                    nextComma += squaresToMark.find(",") + 1;
+                }
+                else {
+                    nextComma = squaresToMark.find(",");
+                }
             }
-            else {
-                nextComma = squaresToMark.find(",");
-            }
+            tape.push_back(stoi(currentLine.substr(squareReader)));
         }
-        tape.push_back(stoi(currentLine.substr(squareReader)));
-
-        std::cout << "Initial State = " << initialState << std::endl;
+        std::cout << "Initial State = " << machineState << std::endl;
     }
     else {
         std::cout << "Error opening tape";
@@ -98,22 +99,26 @@ void TuringMachine::remove_mark()
         // std::cout << "Mark removed at square " << current_square << std::endl;
     }
 }
+
 std::string TuringMachine::get_tape()
 {
     std::string output;
     if (tape.size() == 0)
-        return "Blank Tape\n";
+        return "Blank Tape";
     long maxValue = (findMaxValue() > current_square) ? findMaxValue() : current_square;
+    output += "[";
     for (int i = findMinValue(); i <= maxValue; i++)
     {
 
         if (getIndex(tape, i) != -1)
         {
-            output += "1";
-        }
-        else
-        {
-            output += "0";
+            output += std::to_string(i);
+            if (i != maxValue) {
+                output += ", ";
+            }
+            else {
+                output += "]";
+            }
         }
     }
     return output;
@@ -122,4 +127,39 @@ std::string TuringMachine::get_tape()
 long TuringMachine::get_current_square()
 {
     return current_square;
+}
+
+void TuringMachine::update() {
+    std::string command;
+    command = (getIndex(tape, current_square) != -1) ? states.at(machineState - 1).at(1) : states.at(machineState - 1).at(0);
+    std::size_t squareReader = command.find(",");
+    std::string toMark = command.substr(0, squareReader++);
+    if (toMark.compare("0") == 0) {
+        remove_mark();
+    }
+    else if (toMark.compare("1") == 0) {
+        make_mark();
+    }
+    else {
+        std::cout << "Invalid input, 0 or 1 only" << std::endl;
+    }
+    command = command.substr(squareReader);
+    squareReader = command.find(",");
+    std::string direction = command.substr(0, squareReader++);
+    if (direction.compare("L") == 0) {
+        move_left();
+    }
+    else if (direction.compare("R") == 0) {
+        move_right();
+    }
+    else {
+        std::cout << "Invalid input, L or R only" << std::endl;
+    }
+    machineState = stoi(command.substr(squareReader));
+}
+
+void TuringMachine::run() {
+    while (machineState != 0) {
+        update();
+    }
 }
