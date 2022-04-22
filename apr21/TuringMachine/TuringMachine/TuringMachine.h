@@ -14,6 +14,7 @@ private:
     std::vector<int> tape;
     std::string tape_f;
     std::string state_f;
+    std::vector<std::vector<std::string>> states;
     int getIndex(std::vector<int> v, int value)
     {
         std::vector<int>::iterator it = std::find(v.begin(), v.end(), value);
@@ -54,55 +55,7 @@ private:
     }
 
 public:
-    TuringMachine() {};
-    TuringMachine(std::string tape_file, std::string state_file) {
-        tape_f = tape_file;
-        state_f = state_file;
-
-        std::fstream tape_fs;
-        std::fstream state_fs;
-        tape_fs.open(tape_f, std::ios::in);
-        if (tape_fs) {
-            std::string currentLine;
-            getline(tape_fs, currentLine);
-            std::size_t squareReader = currentLine.find(":");
-            initialState = stoi(currentLine.substr(0, squareReader));
-            std::string squaresToMark = currentLine.substr(++squareReader);
-            std::cout << squaresToMark << std::endl;
-
-            std::size_t nextComma = currentLine.find(",");
-            while (nextComma != std::string::npos) {
-                tape.push_back(stoi(currentLine.substr(squareReader, nextComma)));
-                squareReader = nextComma + 1;
-                squaresToMark = currentLine.substr(squareReader);
-                if (squaresToMark.find(",") != std::string::npos) {
-                    nextComma += squaresToMark.find(",") + 1;
-                }
-                else {
-                    nextComma = squaresToMark.find(",");
-                }
-            }
-            tape.push_back(stoi(currentLine.substr(squareReader)));
-            
-            std::cout << "Initial State = " << initialState << std::endl;
-        }
-        else {
-            std::cout << "Error opening tape";
-        }
-        tape_fs.close();
-
-        state_fs.open(state_f, std::ios::in);
-        if (state_fs) {
-            std::string currentLine;
-            while (getline(state_fs, currentLine)) {
-                std::cout << currentLine << std::endl;
-            }
-        }
-        else {
-            std::cout << "Error opening state";
-        }
-        state_fs.close();
-    };
+    TuringMachine(std::string tape_file, std::string state_file);
     void move_left();          // moves the read head 1 square left
     void move_right();         // moves the read head 1 square right
     bool read_square();        // returns true if there is a mark
