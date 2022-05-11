@@ -116,7 +116,7 @@ void MyVector::remove(int index)
     }
 }
 
-int *MyVector::at(int index)
+int MyVector::at(int index)
 {
     if (index >= length)
     {
@@ -125,7 +125,7 @@ int *MyVector::at(int index)
     }
     else
     {
-        return &vector[index];
+        return vector[index];
     }
 }
 

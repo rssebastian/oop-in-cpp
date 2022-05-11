@@ -25,7 +25,7 @@ public:
     int popBack();
     void insert(int n, int index);
     void remove(int index);
-    int *at(int index);
+    int at(int index);
 
     // Helper Methods/Variables
     void printContents();

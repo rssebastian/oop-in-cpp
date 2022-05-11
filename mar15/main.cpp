@@ -47,8 +47,26 @@ int main()
     cout << mainTest.at(100) << endl;
     return 0;
 }
-
-// TEST CASE OUTPUT
+// TEST CASE OUTPUT:
+// Testing pushBack()...
+// 0 1 2 3 4 5 6 7 8 9
+// Testing insert()...
+// -1 0 1 2 3 4 5 6 7 8 9 11
+// Testing remove()...
+// 0 1 2 3 4 5 6 7 8 9
+// Testing at()...
+// Value at index 0 is: 0
+// 100 1 2 3 4 5 6 7 8 9
+// Testing Copy Constructor...
+// 100 1 2 3 4 5 6 7 8 9
+// 0 1 2 3 4 5 6 7 8 9
+// Testing Operator Overloads...
+// Value at index 0 list is: 100
+// Value at index 0 list is now: 0
+// Value at index 0 list2 is: 0
+// Value at index 0 list2 is: -1
+// List destroyed
+// List destroyed
 
 // 3 3
 // ------------------
